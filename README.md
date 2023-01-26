@@ -1,6 +1,6 @@
 ## Description
 
-RadioNucleo - API RESTful.
+RadioNucleo - API RESTful. (Just to practice NestJS)
 
 Get data e images from albums with subgenres of metal (Working on).
 
