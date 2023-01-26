@@ -31,7 +31,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test (not implemented yet, PROX)
+## Test (no implemented yet, PROX)
 
 ```bash
 # unit tests
