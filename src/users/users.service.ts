@@ -12,10 +12,11 @@ export class UsersService {
     return this.prismaService.user.findMany();
   }
 
+  //TODO fix types with id
   async findById(id: number): Promise<User> {
     return this.prismaService.user.findFirst({
       where: {
-        id,
+        id: parseInt(id + ''),
       },
     });
   }
