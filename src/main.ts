@@ -12,10 +12,10 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-  .setTitle('RadioNucleo API RESTful')
-  .setDescription('Get albums data')
-  .setVersion('0.0.1')
-  .build();
+    .setTitle('RadioNucleo API RESTful')
+    .setDescription('Get albums data')
+    .setVersion('0.0.1')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
 
@@ -23,4 +23,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+
 bootstrap();

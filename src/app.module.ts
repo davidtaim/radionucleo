@@ -6,9 +6,14 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UsersModule, PrismaModule, ConfigModule.forRoot({
-    isGlobal: true
-  })],
-  providers: [PrismaService]
+  imports: [
+    AuthModule,
+    UsersModule,
+    PrismaModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
+  providers: [PrismaService],
 })
-export class AppModule { }
+export class AppModule {}
