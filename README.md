@@ -8,7 +8,7 @@ Data obtained with web scrapping from https://coreradio.online/
 
 I'm not the owner of any of this material, this project is just to share data from the albums like release date, band name, album name, etc. and the album coverart.
 
-If you wanna delete some of the data provided here feel free to send me an email: davidtaim@hotmail.com
+If you want to delete some of the data provided here feel free to send me an email: davidtaim@hotmail.com
 
 ## Installation
 
@@ -31,7 +31,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test (no implementados, PROX)
+## Test (not implemented yet, PROX)
 
 ```bash
 # unit tests
