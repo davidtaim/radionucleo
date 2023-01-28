@@ -18,3 +18,42 @@ model User {
   password     String
   refreshToken String?
 }
+
+
+model Band {
+  id Int @id @default(autoincrement())
+  name String
+  idAlbum Int
+  albumList Album[]
+}
+
+// TODO despues asignar en album un idGenero para saber los albums por genero
+model Genre {
+  id Int @id @default(autoincrement())
+  name String
+}
+
+model Album {
+  id Int @id @default(autoincrement())
+  title String @db.LongText
+  country String @db.LongText
+  genre String @db.LongText
+  imageLink String @db.LongText
+  views Int
+  postDate String @db.LongText
+  idBand Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  songList Song[]
+  band Band @relation(fields: [idBand], references: [id])
+}
+
+model Song {
+  id Int @id @default(autoincrement())
+  idAlbum Int
+  name String @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  album Album @relation(fields: [idAlbum], references: [id])
+}
+

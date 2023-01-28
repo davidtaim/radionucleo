@@ -6,9 +6,11 @@ Get data e images from albums with subgenres of metal (Working on).
 
 Data obtained with web scrapping from https://coreradio.online/
 
-I'm not the owner of any of this material, this project is just to share data from the albums like release date, band name, album name, etc. and the album coverart.
+I'm not the owner of this material, this project is just to share data from the albums like release date, band name, album name, etc. and the album coverart.
 
-If you want to delete some of the data provided here feel free to send me an email: davidtaim@hotmail.com
+Just album DB
+
+If you want to delete some data provided here feel free to email me: davidtaim@hotmail.com
 
 ## Installation
 
