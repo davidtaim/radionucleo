@@ -6,19 +6,24 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { CreateUserDto } from './dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
+@UseGuards(AccessTokenGuard)
 @ApiTags('Users')
-@Controller('users')
+@Controller({
+  path: 'users',
+  version: '1',
+})
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,11 +37,11 @@ export class UsersController {
   @ApiOkResponse({ type: UserEntity })
   @HttpCode(HttpStatus.OK)
   @Get(':id')
-  findById(@Param('id') id: number) {
+  findById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findById(id);
   }
 
-  @ApiOkResponse({ type: UserEntity })
+  @ApiCreatedResponse({ type: UserEntity })
   @HttpCode(HttpStatus.CREATED)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -47,7 +52,10 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AccessTokenGuard)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -55,7 +63,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AccessTokenGuard)
   @Delete('id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
 }

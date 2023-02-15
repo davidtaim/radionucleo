@@ -16,7 +16,7 @@ export class UsersService {
   async findById(id: number): Promise<User> {
     return this.prismaService.user.findFirst({
       where: {
-        id: parseInt(id + ''),
+        id,
       },
     });
   }
