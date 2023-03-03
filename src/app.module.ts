@@ -5,6 +5,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { AlbumsModule } from './albums/albums.module';
+import { SongsModule } from './songs/songs.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { AlbumsModule } from './albums/albums.module';
       isGlobal: true,
     }),
     AlbumsModule,
+    SongsModule,
   ],
-  providers: [PrismaService],
+  providers: [PrismaService]
 })
 export class AppModule {}

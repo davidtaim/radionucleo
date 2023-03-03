@@ -11,63 +11,79 @@ datasource db {
 }
 
 model User {
-    id           Int    @id @default(autoincrement())
-    email        String @unique
+    id           Int     @id @default(autoincrement())
+    email        String  @unique
     name         String
     username     String
     password     String
     refreshToken String?
 }
 
+model Album {
+    id        Int      @id @default(autoincrement())
+    title     String   @db.LongText
+    country   String   @db.LongText
+    genre     String   @db.LongText
+    imageLink String   @db.LongText
+    views     Int
+    postDate  String   @db.LongText
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    songList  Song[]
+}
 
-model Band {
-    id Int @id @default(autoincrement())
-    name String
-    idAlbum Int
-    albumList Album[]
-    albumsCleanList AlbumClean[]
+model Song {
+    id        Int      @id @default(autoincrement())
+    idAlbum   Int
+    name      String   @db.LongText
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    album     Album    @relation(fields: [idAlbum], references: [id])
+}
+
+model SongJust {
+    id        Int       @id @default(autoincrement())
+    idAlbum   Int
+    name      String    @db.LongText
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    album     AlbumJust @relation(fields: [idAlbum], references: [id])
+}
+
+model AlbumJust {
+    id         Int              @id @default(autoincrement())
+    title      String           @db.LongText
+    imageLink  String           @db.LongText
+    views      Int
+    postDate   DateTime
+    createdAt  DateTime         @default(now())
+    updatedAt  DateTime         @updatedAt
+    deleteDate DateTime?
+    idBand     Int
+    band       Band             @relation(fields: [idBand], references: [id])
+    genres     GenresOnAlbums[]
+    songs      SongJust[]
 }
 
 // TODO despues asignar en album un idGenero para saber los albums por genero
 model Genre {
-    id Int @id @default(autoincrement())
-    name String
+    id     Int              @id @default(autoincrement())
+    name   String
+    albums GenresOnAlbums[]
 }
 
-model Album {
-    id Int @id @default(autoincrement())
-    title String @db.LongText
-    country String @db.LongText
-    genre String @db.LongText
-    imageLink String @db.LongText
-    views Int
-    postDate String @db.LongText
-    idBand Int @default(0)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    deleted_at DateTime
-    songList Song[]
-    band Band @relation(fields: [idBand], references: [id])
-}
-
-model Song {
-    id Int @id @default(autoincrement())
+model GenresOnAlbums {
+    album   AlbumJust @relation(fields: [idAlbum], references: [id])
     idAlbum Int
-    name String @db.LongText
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    album Album @relation(fields: [idAlbum], references: [id])
+    genre   Genre     @relation(fields: [idGenre], references: [id])
+    idGenre Int
+
+    @@id([idAlbum, idGenre])
 }
 
-
-model AlbumClean {
-    id Int @id @default(autoincrement())
-    title String @db.LongText
-    genre String @db.LongText
-    imageLink String @db.LongText
-    views Int
-    postDate String @db.LongText
-    idBand Int
-    band Band @relation(fields: [idBand], references: [id])
+model Band {
+    id      Int         @id @default(autoincrement())
+    name    String
+    idAlbum Int
+    albums  AlbumJust[]
 }
-
