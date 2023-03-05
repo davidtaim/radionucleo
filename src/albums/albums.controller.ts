@@ -7,6 +7,7 @@ import {
 	HttpStatus,
 	Param,
 	ParseIntPipe,
+	Query,
 	UseGuards,
 } from '@nestjs/common';
 import { AccessTokenGuard } from '../common/guards/access-token.guard';
@@ -27,18 +28,21 @@ export class AlbumsController {
 	@ApiOkResponse({ type: AlbumResult, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Get()
-	findAll(@Body() getAlbumsDto: GetAlbumsDto): Promise<AlbumResult[]> {
-		return this.albumsService.findAll(getAlbumsDto);
+	findAll(
+		@Query('skip', ParseIntPipe) skip: number,
+		@Query('take', ParseIntPipe) take: number,
+	): Promise<AlbumResult[]> {
+		return this.albumsService.findAll(skip, take);
 	}
 
-	//! Se mapea primero las que puedan llegar a confundirse con otras
-	//! Ejemplo: /song/:id con /song/random, si esta primero la de :id a random lo tomara como valor
+	// //! Se mapea primero las que puedan llegar a confundirse con otras
+	// //! Ejemplo: /song/:id con /song/random, si esta primero la de :id a random lo tomara como valor
 	@ApiOkResponse({ type: AlbumResult, isArray: true })
 	@Get('random')
 	getRandomAlbums(
-		@Body() getAlbumsRandomDto: GetAlbumsRandomDto,
+		@Query('take', ParseIntPipe) take: number,
 	): Promise<AlbumResult[]> {
-		return this.albumsService.getRandomAlbums(getAlbumsRandomDto);
+		return this.albumsService.getRandomAlbums(take);
 	}
 
 	@ApiOkResponse({ type: AlbumResult })

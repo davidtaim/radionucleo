@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class GetSongsRandomDto {
 	@ApiProperty()
-	@IsNotEmpty()
-	take: number;
+	@IsNumber()
+	@IsOptional()
+	take: number = 10;
 }

@@ -8,10 +8,10 @@ import { AlbumResult } from './results/album.result';
 export class AlbumsService {
 	constructor(private readonly prismaService: PrismaService) {}
 
-	async findAll(getAlbumsDto: GetAlbumsDto): Promise<AlbumResult[]> {
+	async findAll(skip: number, take: number): Promise<AlbumResult[]> {
 		let albums = await this.prismaService.album.findMany({
-			skip: getAlbumsDto.skip,
-			take: getAlbumsDto.take,
+			skip,
+			take,
 			select: {
 				id: true,
 				title: true,
@@ -52,16 +52,14 @@ export class AlbumsService {
 		return album;
 	}
 
-	async getRandomAlbums(
-		getAlbumsRandomDto: GetAlbumsRandomDto,
-	): Promise<AlbumResult[]> {
+	async getRandomAlbums(take: number): Promise<AlbumResult[]> {
 		let albumsTrys = 0;
 
 		let albums = [];
 
 		let totalAlbums = await this.prismaService.album.count();
 
-		let tryOut = 3 * getAlbumsRandomDto.take;
+		let tryOut = 3 * take;
 
 		while (albumsTrys < tryOut) {
 			let id = Math.ceil(Math.random() * totalAlbums);
@@ -87,7 +85,7 @@ export class AlbumsService {
 
 			albums.push(album);
 
-			if (albums.length === getAlbumsRandomDto.take) break;
+			if (albums.length === take) break;
 		}
 
 		if (!albums) throw new NotFoundException('any albums found');

@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	ParseIntPipe,
+	Query,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { query } from 'express';
+import { take } from 'rxjs';
 import { GetSongsDto } from './dto/get.songs.dto';
 import { GetSongsRandomDto } from './dto/get.songs.random.dto';
 import { SongResult } from './results/song.result';
@@ -15,16 +24,19 @@ export class SongsController {
 
 	@ApiOkResponse({ type: SongResult, isArray: true })
 	@Get()
-	findAll(@Body() getSongsDto: GetSongsDto): Promise<SongResult[]> {
-		return this.songsService.findAll(getSongsDto);
+	findAll(
+		@Query('skip', ParseIntPipe) skip: number,
+		@Query('take', ParseIntPipe) take: number,
+	): Promise<SongResult[]> {
+		return this.songsService.findAll(skip, take);
 	}
 
 	@ApiOkResponse({ type: SongResult, isArray: true })
 	@Get('random')
 	getRandomSongs(
-		@Body() getSongsRandomDto: GetSongsRandomDto,
+		@Query('take', ParseIntPipe) take: number,
 	): Promise<SongResult[]> {
-		return this.songsService.getRandomSongs(getSongsRandomDto);
+		return this.songsService.getRandomSongs(take);
 	}
 
 	@ApiOkResponse({ type: SongResult })
@@ -33,9 +45,11 @@ export class SongsController {
 		return this.songsService.findById(id);
 	}
 
-    @ApiOkResponse({ type: SongResult, isArray: true })
+	@ApiOkResponse({ type: SongResult, isArray: true })
 	@Get('album/:id')
-	findSongsByIdAlbum(@Param('id', ParseIntPipe) idAlbum: number): Promise<SongResult[]> {
+	findSongsByIdAlbum(
+		@Param('id', ParseIntPipe) idAlbum: number,
+	): Promise<SongResult[]> {
 		return this.songsService.findSongsByIdAlbum(idAlbum);
 	}
 }
