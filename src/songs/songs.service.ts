@@ -1,8 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { take } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { GetSongsDto } from './dto/get.songs.dto';
-import { GetSongsRandomDto } from './dto/get.songs.random.dto';
 import { SongResult } from './results/song.result';
 
 @Injectable()
@@ -10,7 +7,7 @@ export class SongsService {
 	constructor(private readonly prismaService: PrismaService) {}
 
 	async findAll(skip: number = 0, take: number = 10): Promise<SongResult[]> {
-		let songs = await this.prismaService.song.findMany({
+		const songs = await this.prismaService.song.findMany({
 			skip,
 			take,
 			select: {
@@ -23,7 +20,7 @@ export class SongsService {
 	}
 
 	async findById(id: number): Promise<SongResult> {
-		let song = await this.prismaService.song.findFirst({
+		const song = await this.prismaService.song.findFirst({
 			select: {
 				id: true,
 				name: true,
@@ -44,16 +41,16 @@ export class SongsService {
 	async getRandomSongs(take: number): Promise<SongResult[]> {
 		let songsTrys = 0;
 
-		let songs = [];
+		const songs = [];
 
-		let totalSongs = await this.prismaService.song.count();
+		const totalSongs = await this.prismaService.song.count();
 
-		let tryOut = 3 * take;
+		const tryOut = 3 * take;
 
 		while (songsTrys < tryOut) {
-			let id = Math.ceil(Math.random() * totalSongs);
+			const id = Math.ceil(Math.random() * totalSongs);
 
-			let song = await this.prismaService.song.findFirst({
+			const song = await this.prismaService.song.findFirst({
 				select: {
 					id: true,
 					name: true,
@@ -78,7 +75,7 @@ export class SongsService {
 	}
 
 	async findSongsByIdAlbum(idAlbum: number): Promise<SongResult[]> {
-		let songs = await this.prismaService.album.findFirst({
+		const songs = await this.prismaService.album.findFirst({
 			where: {
 				id: idAlbum,
 			},
